@@ -1,0 +1,38 @@
+# Create S3 bucket
+
+resource "aws_s3_bucket" "test-project.tk" {
+  bucket = "test-project.tk"
+}
+
+# Set versioning
+
+resource "aws_s3_bucket_acl" "test-project.tk-acl" {
+  bucket = aws_s3_bucket.test-project.tk.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_versioning" "test-project.tk-versioning" {
+  bucket = aws_s3_bucket.test-project.tk.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+locals {
+  s3_origin_id = "test-project.tk-origin"
+}
+
+
+
+# Set website configuration
+resource "aws_s3_bucket_website_configuration" "test-project.tk-website" {
+  bucket = aws_s3_bucket.test-project.tk.bucket
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "error.html"
+  }
+

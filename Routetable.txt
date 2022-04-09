@@ -1,0 +1,77 @@
+# Public RT set
+resource "aws_default_route_table" "Test_Project_Public_Route_Table" {
+  default_route_table_id = "${aws_vpc.Test_Project_VPC.default_route_table_id}"
+  tags = {
+    Name = "Test_Project_Public_Route_Table"
+  }
+}
+# Create Private az1-RT
+resource "aws_route_table" "Test_Project_Private_Route_Table1" {
+  vpc_id = "${aws_vpc.Test_Project_VPC.id}"
+  tags = {
+    Name = "Test_Project_Private_Route_Table1"
+  }
+}
+
+# Create Private az2-RT
+resource "aws_route_table" "Test_Project_Private_Route_Table2" {
+  vpc_id = "${aws_vpc.Test_Project_VPC.id}"
+  tags = {
+    Name = "Test_Project_Private_Route_Table2"
+  }
+}
+
+# Public route table az1 association
+resource "aws_route_table_association" "Test_Project_az1_Public01" {
+  subnet_id = "${aws_subnet.Test_Project_az1_Public01.id}"
+  route_table_id = "${aws_vpc.Test_Project_VPC.default_route_table_id}"
+}
+
+# public route table az2 association
+resource "aws_route_table_association" "Test_Project_az2_Public02" {
+  subnet_id = "${aws_subnet.Test_Project_az2_Public02.id}"
+  route_table_id = "${aws_vpc.Test_Project_VPC.default_route_table_id}"
+}
+
+# Private route table az1 association
+resource "aws_route_table_association" "Test_Project_az1_Private01" {
+  subnet_id = "${aws_subnet.Test_Project_az1_Private01.id}"
+  route_table_id = "${aws_route_table.Test_Project_Private_Route_Table1.id}"
+}
+
+# Private route table az1 association
+resource "aws_route_table_association" "Test_Project_az1_Private02" {
+  subnet_id = "${aws_subnet.PTest_Project_az1_Private02.id}"
+  route_table_id = "${aws_route_table.Test_Project_Private_Route_Table1.id}"
+}
+
+# Private route table az1 association
+resource "aws_route_table_association" "Test_Project_az1_Private03" {
+  subnet_id = "${aws_subnet.Test_Project_az1_Private03.id}"
+  route_table_id = "${aws_route_table.Test_Project_Private_Route_Table1.id}"
+}
+
+# Private route table az2 association
+resource "aws_route_table_association" "Test_Project_az2_Private01" {
+  subnet_id = "${aws_subnet.Test_Project_az2_Private01.id}"
+  route_table_id = "${aws_route_table.Test_Project_Private_Route_Table2.id}"
+}
+
+# Private route table az2 association
+resource "aws_route_table_association" "Test_Project_az2_Private02" {
+  subnet_id = "${aws_subnet.Test_Project_az2_Private02.id}"
+  route_table_id = "${aws_route_table.Test_Project_Private_Route_Table2.id}"
+}
+
+# Private route table az2 association
+resource "aws_route_table_association" "Test_Project_az2_Private03" {
+  subnet_id = "${aws_subnet.Test_Project_az2_Private03.id}"
+  route_table_id = "${aws_route_table.Test_Project_Private_Route_Table2.id}"
+}
+
+# Connect IGW + Publice-Subnet
+resource "aws_route" "Test_Project_Internet_GW" {
+  route_table_id = "${aws_vpc.Test_Project_VPC.default_route_table_id}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = "${aws_internet_gateway.Test_Project_Internet_GW.id}"
+}

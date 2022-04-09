@@ -1,0 +1,4 @@
+resource "aws_key_pair" "Test_Project_Key" {
+  key_name = "Test_Project_Key"
+  public_key = file("/root/.ssh/Test_Project_Key.pub")
+}

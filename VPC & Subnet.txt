@@ -1,0 +1,87 @@
+# Create VPC
+resource "aws_vpc" "Test_Project_VPC" {
+  cidr_block = "10.0.0.0/16"
+  tags = {
+    Name = "Test_Project_VPC"
+  }
+}
+
+#  Create az1 Public Subnet
+resource "aws_subnet" "Test_Project_az1_Public01" {
+  vpc_id = "${aws_vpc.Test_Project_VPC.id}"
+  cidr_block = "10.0.1.0/24"
+  tags = {
+    Name = "Test_Project_az1_Public01"
+  }
+  availability_zone = "ap-northeast-2a"
+}
+
+#  Create az2 Public Subnet
+resource "aws_subnet" "Test_Project_az2_Public02" {
+  vpc_id = "${aws_vpc.Test_Project_VPC.id}"
+  cidr_block = "10.0.3.0/24"
+  tags = {
+    Name = "Test_Project_az2_Public02"
+  }
+  availability_zone = "ap-northeast-2c"
+}
+
+# Create az1 Private Subnet01
+resource "aws_subnet" "Test_Project_az1_Private01" {
+  vpc_id = "${aws_vpc.Test_Project_VPC.id}"
+  cidr_block = "10.0.2.0/24"
+  tags = {
+    Name = "Test_Project_az1_Private01"
+  }
+  availability_zone = "ap-northeast-2a"
+}
+
+# Create az1 Private Subnet02
+resource "aws_subnet" "Test_Project_az1_Private02" {
+  vpc_id = "${aws_vpc.Test_Project_VPC.id}"
+  cidr_block = "10.0.4.0/24"
+  tags = {
+    Name = "Test_Project_az1_Private02"
+  }
+  availability_zone = "ap-northeast-2a"
+}
+
+# Create az1 Private Subnet03
+resource "aws_subnet" "Test_Project_az1_Private03" {
+  vpc_id = "${aws_vpc.Test_Project_VPC.id}"
+  cidr_block = "10.0.5.0/24"
+  tags = {
+    Name = "Test_Project_az1_Private03"
+  }
+  availability_zone = "ap-northeast-2a"
+}
+
+# Create az2 Private Subnet01
+resource "aws_subnet" "Test_Project_az2_Private01" {
+  vpc_id = "${aws_vpc.Test_Project_VPC.id}"
+  cidr_block = "10.0.6.0/24"
+  tags = {
+    Name = "Test_Project_az2_Private01"
+  }
+  availability_zone = "ap-northeast-2c"
+}
+
+# Create az2 Private Subnet02
+resource "aws_subnet" "Test_Project_az2_Private02" {
+  vpc_id = "${aws_vpc.Test_Project_VPC.id}"
+  cidr_block = "10.0.7.0/24"
+  tags = {
+    Name = "Test_Project_az2_Private02"
+  }
+  availability_zone = "ap-northeast-2c"
+}
+
+# Create az2 Private Subnet03
+resource "aws_subnet" "Test_Project_az2_Private03" {
+  vpc_id = "${aws_vpc.Test_Project_VPC.id}"
+  cidr_block = "10.0.8.0/24"
+  tags = {
+    Name = "Test_Project_az2_Private03"
+  }
+  availability_zone = "ap-northeast-2c"
+}

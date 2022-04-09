@@ -1,0 +1,13 @@
+provider "aws" {
+  access_key = "AKIA5QYSPNCZCSSN6BYA"
+  secret_key = "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"
+  region = "ap-northeast-2"
+}
+
+terraform {
+  required_version = "1.1.7"
+
+  required_providers {
+    aws = ">= 4.8.0"
+  }
+}

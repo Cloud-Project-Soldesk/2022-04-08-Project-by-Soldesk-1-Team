@@ -1,0 +1,7 @@
+# Create Internet Gateway
+resource "aws_internet_gateway" "Test_Project_Internet_GW" {
+  vpc_id = "${aws_vpc.Test_Project_VPC.id}"
+  tags = {
+    Name = "Test_Project_Internet_GW"
+  }
+}

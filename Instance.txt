@@ -1,0 +1,66 @@
+# Create Bastion EC2 Instance
+resource "aws_instance" "Bastion Instance" {
+  ami = "ami-033a6a056910d1137"
+  instance_type = "t2.micro"
+  tags = {
+    Name = "Bastion"
+  }
+  key_name = "Test_Project_Key"
+  associate_public_ip_address = true
+  subnet_id = aws_subnet.Test_Project_az1_Public01.id
+  vpc_security_group_ids = [
+    aws_security_group.Bastion_Security.id
+  ]
+}
+
+# Create WebServer EC2 Instance
+resource "aws_instance" "Web_Server_Instance" {
+  ami = "ami-033a6a056910d1137"
+  instance_type = "t2.micro"
+  tags = {
+    Name = "Web Server"
+  }
+  key_name = "Test_Project_Key"
+  associate_public_ip_address = false
+  subnet_id = aws_subnet.Test_Project_az1_Private01.id
+  vpc_security_group_ids = [
+    aws_security_group.Web_Server_Security.id
+  ]
+user_data = <<-EOF
+  #!/bin/bash
+  echo "*** Installing apache2"
+  sudo apt update -y
+  sudo apt install apache2 -y
+  echo "*** Completed Installing apache2"
+  EOF
+}
+
+# Create AppServer EC2 Instance - az1
+resource "aws_instance" "Web_Application_Server_Instance_az1" {
+  ami = "ami-033a6a056910d1137"
+  instance_type = "t2.micro"
+  tags = {
+    Name = "App Server1"
+  }
+  key_name = "Test_Project_Key"
+  associate_public_ip_address = false
+  subnet_id = aws_subnet.Test_Project_az1_Private02.id
+  vpc_security_group_ids = [
+    aws_security_group.App_Server_Security.id
+  ]
+}
+
+# Create AppServer EC2 Instance - az2
+resource "aws_instance" "Web_Application_Server_Instance_az2" {
+  ami = "ami-033a6a056910d1137"
+  instance_type = "t2.micro"
+  tags = {
+    Name = "App Server2"
+  }
+  key_name = "Test_Project_Key"
+  associate_public_ip_address = false
+  subnet_id = aws_subnet.Test_Project_az2_Private02.id
+  vpc_security_group_ids = [
+    aws_security_group.App_Server_Security.id
+  ]
+}

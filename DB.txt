@@ -1,0 +1,15 @@
+# RDS DB Instance 생성
+resource "aws_db_instance" "Test_Project_DB" {
+  allocated_storage    = 10
+  engine               = "mysql"
+  engine_version       = "8.0.20"
+  instance_class       = "db.t2.micro"
+  name                 = "terraformdb"
+  username             = "admin"
+  password             = "qwer1234"
+  identifier           = "Test_Project_DB"
+  skip_final_snapshot  = true
+  db_subnet_group_name  = "Test_Project_DB_Subnet_Group"
+  vpc_security_group_ids = ["${aws_security_group.DB_Security.id}"]
+  multi_az             = true #multi-AZ 
+}

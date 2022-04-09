@@ -1,0 +1,48 @@
+# Create Elastic-IP 1
+resource "aws_eip" "Test_Project_Elastic_IP01" {
+  vpc = true
+  tags = {
+    Name = "Test_Project_Elastic_IP01"
+  }
+}
+
+# Create NAT Gateway-az1
+resource "aws_nat_gateway" "Test_Project_Nat_Gateway01" {
+  allocation_id = "${aws_eip.Test_Project_Elastic_IP01.id}"
+  subnet_id = "${aws_subnet.Test_Project_az1_Public01.id}"
+  tags = {
+    Name = "Test_Project_Nat_Gateway01"
+  }
+}
+
+# Create Elastic-IP 2
+resource "aws_eip" "Test_Project_Elastic_IP02" {
+  vpc = true
+  tags = {
+    Name = "Test_Project_Elastic_IP02"
+  }
+}
+
+# Create NAT Gateway-az2
+resource "aws_nat_gateway" "Test_Project_Nat_Gateway02" {
+  allocation_id = "${aws_eip.Test_Project_Elastic_IP02.id}"
+  subnet_id = "${aws_subnet.Test_Project_az2_Public02.id}"
+  tags = {
+    Name = "Test_Project_Nat_Gateway02"
+  }
+}
+
+
+# Connect Private-Subnet-RT - az1-NAT
+resource "aws_route" "Test_Project_Nat_Gateway01" {
+  route_table_id = "${aws_route_table.Project-Private-az1-RT.id}"
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id = "${aws_nat_gateway.Test_Project_Nat_Gateway01.id}"
+}
+
+# Connect Private-Subnet-RT - az2-NAT
+resource "aws_route" "Test_Project_Nat_Gateway02" {
+  route_table_id = "${aws_route_table.Project-Private-az2-RT.id}"
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id = "${aws_nat_gateway.Test_Project_Nat_Gateway02.id}"
+}a
